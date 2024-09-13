@@ -7,7 +7,22 @@ public class Player : MonoBehaviour
     [SerializeField] AudioSource dropAudio;
     [SerializeField] AudioSource fusionAudio;
 
+    [SerializeField] Transform spawnOffset;
+
     public GameObject[] ballPrefabs;
+    private GameObject currentBall;
+
+    private void Start()
+    {
+        GrabBall();
+    }
+
+    private void GrabBall()
+    {
+        int randomIndex = Random.Range(0, ballPrefabs.Length);
+        var ballPrefab = ballPrefabs[randomIndex];
+        currentBall = Instantiate(ballPrefab, spawnOffset.position, Quaternion.identity, spawnOffset);
+    }
 
     // Update is called once per frame
     void Update()
@@ -30,11 +45,10 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
-            int randomIndex = Random.Range(0, ballPrefabs.Length);
-            var ballPrefab = ballPrefabs[randomIndex];
-            Instantiate(ballPrefab, transform.position, Quaternion.identity);
-
+            currentBall.transform.parent = null;
+            currentBall.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             dropAudio.Play();
+            Invoke("GrabBall", 0.5f);
         }
     }
 
@@ -49,6 +63,7 @@ public class Player : MonoBehaviour
         }
 
         fusionAudio.Play();
-        Instantiate(ballPrefabs[index], spawnPosition, Quaternion.identity);
+        var fusionedBall = Instantiate(ballPrefabs[index], spawnPosition, Quaternion.identity);
+        fusionedBall.GetComponent<Rigidbody2D>().bodyType= RigidbodyType2D.Dynamic;
     }
 }
