@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: ballIndex
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8587676602431742829, guid: 64c540d96a0c6c34cafb0b7bcbb05e9a, type: 3}
+      propertyPath: ballScore
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8770260616623324496, guid: 64c540d96a0c6c34cafb0b7bcbb05e9a, type: 3}
       propertyPath: m_audioClip
       value: 

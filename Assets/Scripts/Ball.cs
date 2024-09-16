@@ -3,6 +3,9 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public int ballIndex;
+
+    public int ballScore;
+
     bool isFusioning;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -21,6 +24,9 @@ public class Ball : MonoBehaviour
             if (ballIndex == otherBall.ballIndex)
             {
                 Debug.Log("Same ball collision, now FUSION!");
+
+                FindAnyObjectByType<Score>().AddScore(ballScore);
+
                 isFusioning = true;
                 otherBall.isFusioning = true;
 
