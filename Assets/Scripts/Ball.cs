@@ -17,7 +17,7 @@ public class Ball : MonoBehaviour
         }
 
         var otherBall = collision.gameObject.GetComponent<Ball>();
-        if (otherBall != null)
+        if (otherBall != null && !otherBall.isFusioning)
         {
             Debug.Log($"Ball {gameObject.name} collide with ball {collision.gameObject.name}");
 

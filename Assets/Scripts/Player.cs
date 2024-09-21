@@ -8,9 +8,11 @@ public class Player : MonoBehaviour
     [SerializeField] AudioSource fusionAudio;
 
     [SerializeField] Transform spawnOffset;
+    [SerializeField] Animator gameoverAnimator;
 
     public GameObject[] ballPrefabs;
     private GameObject currentBall;
+    bool isHoldingBall;
 
     private void Start()
     {
@@ -19,6 +21,7 @@ public class Player : MonoBehaviour
 
     private void GrabBall()
     {
+        isHoldingBall = true;
         int randomIndex = Random.Range(0, ballPrefabs.Length);
         var ballPrefab = ballPrefabs[randomIndex];
         currentBall = Instantiate(ballPrefab, spawnOffset.position, Quaternion.identity, spawnOffset);
@@ -42,9 +45,11 @@ public class Player : MonoBehaviour
         // Appliquer la nouvelle position
         transform.position = nextPosition;
 
-
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        // if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isHoldingBall)
+        bool playerTryToDropBall = Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space);
+        if (playerTryToDropBall && isHoldingBall)
         {
+            isHoldingBall = false;
             currentBall.transform.parent = null;
             currentBall.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
             dropAudio.Play();
